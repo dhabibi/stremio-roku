@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- WebBrowser.xml - Scene Graph component for displaying web content -->
+<component name="WebBrowser" extends="Group">
+  
+  <!-- Interface definition -->
+  <interface>
+    <!-- URL field for setting the web page to display -->
+    <field id="url" type="string" value="https://web.stremio.com" onChange="onUrlChange" />
+    
+    <!-- Loading state field -->
+    <field id="isLoading" type="boolean" value="false" />
+    
+    <!-- Error handling field -->
+    <field id="errorMessage" type="string" value="" />
+    
+    <!-- Browser control fields -->
+    <field id="canGoBack" type="boolean" value="false" />
+    <field id="canGoForward" type="boolean" value="false" />
+    
+    <!-- JavaScript execution field -->
+    <field id="executeJS" type="string" value="" onChange="onExecuteJS" />
+    
+    <!-- Page title field -->
+    <field id="pageTitle" type="string" value="" />
+  </interface>
+
+  <!-- Component children -->
+  <children>
+    
+    <!-- Main container for the web browser -->
+    <Rectangle id="browserContainer" 
+               width="1920" 
+               height="1080" 
+               color="0x000000FF">
+      
+      <!-- Web view component (uses Roku's built-in web rendering) -->
+      <Group id="webViewGroup" translation="[0,0]">
+        
+        <!-- Loading indicator -->
+        <Rectangle id="loadingOverlay" 
+                   width="1920" 
+                   height="1080" 
+                   color="0x00000080" 
+                   visible="false">
+          
+          <Label id="loadingText" 
+                 text="Loading..." 
+                 font="font:MediumSystemFont" 
+                 color="0xFFFFFFFF" 
+                 translation="[860, 520]" 
+                 horizAlign="center" 
+                 vertAlign="center" />
+          
+          <!-- Loading spinner animation -->
+          <Animation id="loadingAnimation" repeat="true">
+            <FloatFieldInterpolator key="[0.0, 1.0]" 
+                                   keyValue="[0.0, 360.0]" 
+                                   fieldToInterp="loadingSpinner.rotation" />
+          </Animation>
+          
+          <Rectangle id="loadingSpinner" 
+                     width="40" 
+                     height="40" 
+                     color="0xFFFFFFFF" 
+                     translation="[940, 540]" />
+        </Rectangle>
+        
+        <!-- Error overlay -->
+        <Rectangle id="errorOverlay" 
+                   width="1920" 
+                   height="1080" 
+                   color="0x000000CC" 
+                   visible="false">
+          
+          <Label id="errorText" 
+                 text="Error loading page" 
+                 font="font:LargeSystemFont" 
+                 color="0xFF0000FF" 
+                 translation="[960, 480]" 
+                 horizAlign="center" 
+                 vertAlign="center" 
+                 width="800" 
+                 wrap="true" />
+          
+          <Label id="retryInstructions" 
+                 text="Press OK to retry or BACK to return" 
+                 font="font:MediumSystemFont" 
+                 color="0xFFFFFFFF" 
+                 translation="[960, 540]" 
+                 horizAlign="center" 
+                 vertAlign="center" />
+        </Rectangle>
+        
+      </Group>
+      
+      <!-- Navigation controls overlay (optional, can be toggled) -->
+      <Rectangle id="controlsOverlay" 
+                 width="1920" 
+                 height="80" 
+                 color="0x000000AA" 
+                 translation="[0, 1000]" 
+                 visible="false">
+        
+        <!-- Back button -->
+        <Rectangle id="backButton" 
+                   width="120" 
+                   height="60" 
+                   color="0x333333FF" 
+                   translation="[20, 10]">
+          <Label text="Back" 
+                 font="font:MediumSystemFont" 
+                 color="0xFFFFFFFF" 
+                 translation="[60, 30]" 
+                 horizAlign="center" 
+                 vertAlign="center" />
+        </Rectangle>
+        
+        <!-- Forward button -->
+        <Rectangle id="forwardButton" 
+                   width="120" 
+                   height="60" 
+                   color="0x333333FF" 
+                   translation="[150, 10]">
+          <Label text="Forward" 
+                 font="font:MediumSystemFont" 
+                 color="0xFFFFFFFF" 
+                 translation="[60, 30]" 
+                 horizAlign="center" 
+                 vertAlign="center" />
+        </Rectangle>
+        
+        <!-- Reload button -->
+        <Rectangle id="reloadButton" 
+                   width="120" 
+                   height="60" 
+                   color="0x333333FF" 
+                   translation="[280, 10]">
+          <Label text="Reload" 
+                 font="font:MediumSystemFont" 
+                 color="0xFFFFFFFF" 
+                 translation="[60, 30]" 
+                 horizAlign="center" 
+                 vertAlign="center" />
+        </Rectangle>
+        
+        <!-- URL display -->
+        <Rectangle id="urlDisplay" 
+                   width="1200" 
+                   height="60" 
+                   color="0x222222FF" 
+                   translation="[420, 10]">
+          <Label id="urlText" 
+                 text="https://web.stremio.com" 
+                 font="font:SmallSystemFont" 
+                 color="0xCCCCCCFF" 
+                 translation="[20, 30]" 
+                 vertAlign="center" 
+                 width="1160" />
+        </Rectangle>
+        
+        <!-- Menu button -->
+        <Rectangle id="menuButton" 
+                   width="120" 
+                   height="60" 
+                   color="0x333333FF" 
+                   translation="[1640, 10]">
+          <Label text="Menu" 
+                 font="font:MediumSystemFont" 
+                 color="0xFFFFFFFF" 
+                 translation="[60, 30]" 
+                 horizAlign="center" 
+                 vertAlign="center" />
+        </Rectangle>
+        
+      </Rectangle>
+      
+    </Rectangle>
+    
+  </children>
+
+  <!-- Script tag for component logic -->
+  <script type="text/brightscript" uri="pkg:/components/WebBrowser.brs" />
+
+</component>
