@@ -8,6 +8,20 @@ A Roku channel that opens the Stremio web interface (https://web.stremio.com) di
 - Computer with network access to your Roku
 - Roku device and computer on the same network
 
+## Quick Start
+
+### Option 1: Download Pre-built Release (Recommended)
+
+1. **Download the latest release:**
+   - Go to [Releases](https://github.com/dhabibi/stremio-roku/releases)
+   - Download `stremio-roku.zip` from the latest release
+
+2. **Continue to Step 1 below** to enable Developer Mode on your Roku
+
+### Option 2: Build from Source
+
+Follow all steps below to build and package the app yourself.
+
 ## Setup Instructions
 
 ### Step 1: Enable Developer Mode on Roku
@@ -35,8 +49,11 @@ A Roku channel that opens the Stremio web interface (https://web.stremio.com) di
 1. Check your router's admin panel for connected devices
 2. Look for your Roku device
 
-### Step 3: Prepare the App for Deployment
+### Step 3: Get the App Package
 
+**If you downloaded from releases:** Skip to Step 4 - you already have `stremio-roku.zip`
+
+**If building from source:**
 1. **Create a ZIP file** of the entire `stremio-roku` directory:
    ```bash
    cd stremio-roku
